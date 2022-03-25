@@ -27,7 +27,7 @@ mongoose
   })
   .catch((err) => console.log(err));
 
-const port = 3000;
+const port = 8000;
 app.listen(port, (err) => {
-  console.log("Post 4000");
+  console.log(`Post ${port}`);
 });
