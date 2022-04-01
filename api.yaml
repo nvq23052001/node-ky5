@@ -1,0 +1,48 @@
+swagger: "2.0"
+info:
+  description: Mo ta ve API...
+  version: 1.0.1
+  title: "Swagger for ecommerce"
+
+paths:
+  /api/products:
+    get:
+      summary: Lay danh sach san pham
+      tags:
+        - GET ALL PRODUCTS
+      responses:
+        "200":
+          description: Lay san pham thanh cong
+        "400":
+          description: Khong lay duoc san pham
+
+    post:
+      summary: Thêm sản phẩm
+      responses:
+        "200":
+          description: Thêm sản phẩm thành công
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "Bắt buộc phải có các trường giống bên dưới"
+          required: true
+          schema:
+            $ref: "#/components/schemas/Product"
+
+components:
+  schemas:
+    Product:
+      properties:
+        _id:
+          type: integer
+        name:
+          type: string
+          minLength: 5
+        price:
+          type: integer
+        category:
+          type: string
+      required:
+        - name
+        - price
+        - category

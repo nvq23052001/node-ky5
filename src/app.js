@@ -3,11 +3,18 @@ import morgan from "morgan";
 import cors from "cors";
 import route from "./router/index";
 import mongoose from "mongoose";
+import swaggerUI from "swagger-ui-express";
+import YAML from "yamljs";
+
 import fs, { readdirSync, _dirname } from "fs";
 const app = express();
 app.use(cors());
 app.use(morgan("dev"));
 app.use(express.json());
+
+const swaggerJSDocs = YAML.load("./api.yaml");
+
+app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerJSDocs));
 
 route(app);
 

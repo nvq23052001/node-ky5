@@ -1,9 +1,10 @@
 import User from "../models/user";
+import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
 
+dotenv.config();
 class AuthController {
   async signup(req, res) {
-    console.log(req.body);
-
     try {
       const { email, name, password } = req.body;
       const existEmail = await User.findOne({ email }).exec();
@@ -49,7 +50,14 @@ class AuthController {
         });
       }
 
+      const token = jwt.sign(
+        { _id: user._id },
+        process.env.ACCESS_TOKEN_SECRET,
+        { expiresIn: "1h" }
+      );
+
       res.json({
+        token,
         user: {
           _id: user._id,
           email: user.email,

@@ -21,6 +21,7 @@ class ProductController {
   async createProduct(req, res) {
     try {
       const product = await new Product(req.body).save();
+      console.log(req.body);
       res.json(product);
     } catch (err) {
       console.log(err);
@@ -48,6 +49,21 @@ class ProductController {
     } catch (error) {
       res.status(400).json({
         message: "Delete product is fail",
+      });
+    }
+  }
+
+  async searchProduct(req, res) {
+    const text = req.query.q;
+    console.log(text);
+    try {
+      const productSearch = await Product.find({
+        $text: { $search: text },
+      });
+      res.json(productSearch);
+    } catch (error) {
+      res.json({
+        data: error,
       });
     }
   }
