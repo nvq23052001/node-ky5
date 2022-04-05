@@ -10,6 +10,7 @@ class UserController {
           message: "Do not found user",
         });
       }
+
       req.profile = user;
       req.profile.password = undefined;
       next();

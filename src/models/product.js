@@ -29,7 +29,7 @@ const productSchema = new Schema(
       ref: "Category",
     },
     status: {
-      type: String,
+      type: Number,
     },
   },
   { timestamps: true }

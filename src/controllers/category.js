@@ -37,7 +37,7 @@ class CategoryController {
 
   async update(req, res, next) {
     try {
-      const category = await Category.findOneAndDelete(
+      const category = await Category.findOneAndUpdate(
         {
           _id: req.params.id,
         },

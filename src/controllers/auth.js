@@ -37,14 +37,14 @@ class AuthController {
       const user = await User.findOne({ email }).exec();
 
       if (!user) {
-        res.status(400).json({
+        return res.status(400).json({
           status: "Invalid",
           message: "Email k  ton tai",
         });
       }
 
       if (!user.authenticate(password)) {
-        res.status(400).json({
+        return res.status(400).json({
           status: "Invalid",
           message: "Mk k dung",
         });
@@ -52,10 +52,8 @@ class AuthController {
 
       const token = jwt.sign(
         { _id: user._id },
-        process.env.ACCESS_TOKEN_SECRET,
-        { expiresIn: "1h" }
+        process.env.ACCESS_TOKEN_SECRET
       );
-
       res.json({
         token,
         user: {

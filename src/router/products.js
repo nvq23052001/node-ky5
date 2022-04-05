@@ -12,7 +12,7 @@ import user from "../controllers/user";
 
 const router = Router();
 
-router.route("/products").get(checkAuth, products.getAllProduct);
+router.route("/products").get(products.getAllProduct);
 
 router
   .route("/products/:userId")
@@ -20,9 +20,10 @@ router
 
 router
   .route("/product/:id/:userId")
-  .get(products.getProduct)
   .delete(requiredSigin, isAuth, isAdmin, products.deleteProduct)
   .put(requiredSigin, isAuth, isAdmin, products.updateProduct);
+
+router.route("/product/:id").get(products.getProduct);
 
 // Author
 router.param("userId", user.userById);

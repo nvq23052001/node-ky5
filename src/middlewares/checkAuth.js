@@ -22,20 +22,18 @@ export const isAuth = (req, res, next) => {
 
   const status = req.profile._id == req.auth._id;
   if (!status) {
-    res.status(401).json({
-      status: "Invalid",
-      message: "You do not have access to this function ",
-    });
+    return res.redirect("/");
+    // res.status(401).json({
+    //   status: "Invalid",
+    //   message: "You do not have access to this function ",
+    // });
   }
   next();
 };
 
 export const isAdmin = (req, res, next) => {
   if (!req.profile.role == 0) {
-    res.status(401).json({
-      status: "Invalid",
-      message: "You are not admin!",
-    });
+    return res.redirect("/");
   }
   next();
 };

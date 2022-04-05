@@ -5,12 +5,20 @@ import route from "./router/index";
 import mongoose from "mongoose";
 import swaggerUI from "swagger-ui-express";
 import YAML from "yamljs";
+import session from "express-session";
 
 import fs, { readdirSync, _dirname } from "fs";
 const app = express();
 app.use(cors());
 app.use(morgan("dev"));
 app.use(express.json());
+app.use(
+  session({
+    secret: "secret-key",
+    resave: false,
+    saveUninitialized: false,
+  })
+);
 
 const swaggerJSDocs = YAML.load("./api.yaml");
 
