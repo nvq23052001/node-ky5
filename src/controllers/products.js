@@ -4,17 +4,37 @@ import Product from "../models/product";
 
 class ProductController {
   async getAllProduct(req, res) {
-    try {
-      const products = await Product.find({}).exec();
-      res.json(products);
-    } catch (err) {
-      console.log(err);
+    let page = req.query.page;
+    const PAGE_SIZE = 5;
+    if (page) {
+      //! GET PAGE
+      try {
+        page = +page;
+        let skipNumber = (page - 1) * PAGE_SIZE;
+        const products = await Product.find({})
+          .skip(skipNumber)
+          .limit(PAGE_SIZE);
+        res.json(products);
+      } catch (error) {
+        console.log(err);
+      }
+    } else {
+      //! GET ALL
+      try {
+        const products = await Product.find({}).populate("category").exec();
+
+        res.json(products);
+      } catch (err) {
+        console.log(err);
+      }
     }
   }
 
   async getProduct(req, res) {
     const id = req.params.id;
-    const product = await Product.findOne({ _id: id }).exec();
+    const product = await Product.findOne({ _id: id })
+      .populate("category")
+      .exec();
     res.json(product);
   }
 
@@ -45,7 +65,7 @@ class ProductController {
         { _id: req.params.id },
         req.body
       ).exec();
-      res, json(product);
+      res.json(product);
     } catch (error) {
       res.status(400).json({
         message: "Delete product is fail",
