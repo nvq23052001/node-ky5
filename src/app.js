@@ -19,6 +19,7 @@ app.use(
     saveUninitialized: false,
   })
 );
+app.use("/uploads", express.static("uploads"));
 
 const swaggerJSDocs = YAML.load("./api.yaml");
 

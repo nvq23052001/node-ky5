@@ -1,11 +1,9 @@
 import mongoose from "mongoose";
 import Product from "../models/product";
-// import Product from mongoose.model("Product", { name: String });
-
 class ProductController {
   async getAllProduct(req, res) {
     let page = req.query.page;
-    const PAGE_SIZE = 5;
+    const PAGE_SIZE = 2;
     if (page) {
       //! GET PAGE
       try {
@@ -40,8 +38,11 @@ class ProductController {
 
   async createProduct(req, res) {
     try {
-      const product = await new Product(req.body).save();
-      console.log(req.body);
+      console.log({ ...req.body, image: req.file.path });
+      const product = await new Product({
+        ...req.body,
+        image: req.file.path,
+      }).save();
       res.json(product);
     } catch (err) {
       console.log(err);
