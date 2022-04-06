@@ -1,7 +1,7 @@
 import Router from "express";
 import express from "express";
 import multer from "multer";
-
+import path from "path";
 import {
   checkAuth,
   isAdmin,
@@ -18,7 +18,10 @@ const storage = multer.diskStorage({
     cb(null, "./uploads/");
   },
   filename: function (req, file, cb) {
-    cb(null, file.originalname);
+    cb(
+      null,
+      file.fieldname + "-" + Date.now() + path.extname(file.originalname)
+    );
   },
 });
 
@@ -35,7 +38,7 @@ const upload = multer({ storage: storage, fileFilter: fileFilter });
 router
   .route("/products")
   .get(products.getAllProduct)
-  .post(upload.single("image"), products.createProduct);
+  .post(upload.array("image", 4), products.createProduct);
 
 router.route("/products/:userId");
 // .post(upload.single("productImage"), products.createProduct);

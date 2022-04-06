@@ -38,10 +38,13 @@ class ProductController {
 
   async createProduct(req, res) {
     try {
-      console.log({ ...req.body, image: req.file.path });
+      const multiImage = req.files.map((image) => {
+        return { path: image.path };
+      });
       const product = await new Product({
         ...req.body,
-        image: req.file.path,
+        image: req.files[0].path,
+        imageDetail: multiImage,
       }).save();
       res.json(product);
     } catch (err) {
