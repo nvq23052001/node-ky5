@@ -8,7 +8,6 @@ const productSchema = new Schema(
       type: String,
       index: true,
       minLength: 5,
-      required: true,
       unique: true,
     },
 

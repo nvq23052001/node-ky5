@@ -50,18 +50,42 @@ class CategoryController {
   }
 
   async read(req, res) {
-    try {
-      const condition = { _id: req.params.id };
-      const category = await Category.findOne(condition).exec();
-      console.log(category);
-      const products = await Product.find({ category })
-        .select("-category")
-        .exec();
-      res.json({
-        category,
-        products,
-      });
-    } catch (error) {}
+    let page = req.query.page;
+    const PAGE_SIZE = 5;
+
+    const condition = { _id: req.params.id };
+    const category = await Category.findOne(condition).exec();
+
+    if (page) {
+      //! GET Pagination
+      try {
+        page = +page;
+        let skipNumber = (page - 1) * PAGE_SIZE;
+        const products = await Product.find({ category })
+          .select("-category")
+          .skip(skipNumber)
+          .limit(PAGE_SIZE);
+
+        res.json({
+          category,
+          products,
+        });
+      } catch (error) {
+        console.log(err);
+      }
+    } else {
+      try {
+        const products = await Product.find({ category })
+          .select("-category")
+          .exec();
+        res.json({
+          category,
+          products,
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    }
   }
 }
 

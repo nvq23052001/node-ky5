@@ -34,11 +34,17 @@ const fileFilter = (req, file, cb) => {
 };
 
 const upload = multer({ storage: storage, fileFilter: fileFilter });
+const cpUpload = upload.fields([
+  { name: "image", maxCount: 1 },
+  { name: "imageDetail", maxCount: 4 },
+]);
 
-router
-  .route("/products")
-  .get(products.getAllProduct)
-  .post(upload.array("image", 4), products.createProduct);
+router.route("/products").get(products.getAllProduct).post(
+  // upload.single("imageProduct"),
+  // upload.array("image", 4),
+  cpUpload,
+  products.createProduct
+);
 
 router.route("/products/:userId");
 // .post(upload.single("productImage"), products.createProduct);

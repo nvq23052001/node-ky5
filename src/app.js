@@ -6,6 +6,7 @@ import mongoose from "mongoose";
 import swaggerUI from "swagger-ui-express";
 import YAML from "yamljs";
 import session from "express-session";
+import fileUpload from "express-fileupload";
 
 import fs, { readdirSync, _dirname } from "fs";
 const app = express();
