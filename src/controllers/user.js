@@ -18,6 +18,15 @@ class UserController {
       console.log(error);
     }
   }
+
+  async getUser(req, res) {
+    try {
+      const user = await User.find({}).exec();
+      res.json(user);
+    } catch (error) {
+      console.log(user);
+    }
+  }
 }
 
 export default new UserController();
