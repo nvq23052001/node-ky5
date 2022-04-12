@@ -39,12 +39,10 @@ const cpUpload = upload.fields([
   { name: "imageDetail", maxCount: 4 },
 ]);
 
-router.route("/products").get(products.getAllProduct).post(
-  // upload.single("imageProduct"),
-  // upload.array("image", 4),
-  cpUpload,
-  products.createProduct
-);
+router
+  .route("/products")
+  .get(products.getAllProduct)
+  .post(cpUpload, products.createProduct);
 
 router.route("/products/:userId");
 // .post(upload.single("productImage"), products.createProduct);
@@ -54,6 +52,13 @@ router
   .route("/product/:id/:userId")
   .delete(requiredSigin, isAuth, isAdmin, products.deleteProduct)
   .put(requiredSigin, isAuth, isAdmin, products.updateProduct);
+
+//  GET Trash products
+router.route("/product/trash").get(products.trashProduct);
+router.route("/product/:id/:userId/restore").patch(products.restoreProduct);
+
+// //DELETE product
+router.route("/product/force/:id/:userId").delete(products.forceProduct);
 
 router.route("/product/:id").get(products.getProduct);
 
