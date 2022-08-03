@@ -50,8 +50,10 @@ router.route("/products/:userId");
 
 router
   .route("/product/:id/:userId")
-  .delete(requiredSigin, isAuth, isAdmin, products.deleteProduct)
-  .put(requiredSigin, isAuth, isAdmin, products.updateProduct);
+  .delete(requiredSigin, isAuth, isAdmin, products.deleteProduct);
+
+router.route("/product/status/:id").put(products.updateStatusProduct);
+router.route("/product/:id").put(cpUpload, products.updateProduct);
 
 //  GET Trash products
 router.route("/product/trash").get(products.trashProduct);

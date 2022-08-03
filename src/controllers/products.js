@@ -43,7 +43,7 @@ class ProductController {
           },
           { deleted: false }
         );
-        return res.json(productSearch);
+        res.json(productSearch);
       } catch (error) {
         res.json({
           data: error,
@@ -72,8 +72,6 @@ class ProductController {
   }
 
   async createProduct(req, res) {
-    console.log(req.files["image"][0]);
-    console.log(req.files["imageDetail"]);
     try {
       const multiImage = req.files["imageDetail"].map((image) => {
         return image.path;
@@ -88,19 +86,28 @@ class ProductController {
       console.log(err);
     }
   }
-
   async updateProduct(req, res) {
+    console.log(req.files);
     try {
       const multiImage = req.files["imageDetail"].map((image) => {
         return image.path;
       });
-      const product = await Product.findByIdAndUpdate(
+      const product = await Product.findByIdAndUpdate(req.params.id, {
+        ...req.body,
+        image: req.files["image"][0].path,
+        imageDetail: multiImage,
+      }).exec();
+      res.json(product);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  async updateStatusProduct(req, res) {
+    try {
+      const product = Product.findByIdAndUpdate(
         { _id: req.params.id },
-        {
-          ...req.body,
-          image: req.files["image"][0].path,
-          imageDetail: multiImage,
-        }
+        req.body
       ).exec();
       res.json(product);
     } catch (error) {
