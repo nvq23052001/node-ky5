@@ -44,7 +44,7 @@ mongoose
   })
   .catch((err) => console.log(err));
 
-const port = 8000;
+const PORT = process.env.PORT || 3000;
 app.listen(port, (err) => {
   console.log(`Post ${port}`);
 });
